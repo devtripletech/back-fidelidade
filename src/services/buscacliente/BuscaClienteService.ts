@@ -1,6 +1,7 @@
 import axios from "axios"
 import prismaClient from "../../prisma";
 import { cp } from "fs";
+import redis from "../../lib/redis";
 
 class BuscaClienteService{
 
@@ -9,6 +10,7 @@ class BuscaClienteService{
 async BuscaClienteApi ({nome, cpf, celular}){
     try{
 
+        
         let consulta = ""
        
         if(cpf != '' || cpf != undefined){
@@ -37,9 +39,6 @@ async BuscaClienteApi ({nome, cpf, celular}){
                     return 
                 }
 
-                console.log(dados.data[0])
-
-                console.log(">>>>> fimmm")
             
                 const resultadoGeral = {
                         "nome" : dados.data[0].name,

@@ -53,8 +53,14 @@ class BuscaClienteController {
 
             const resultado = await buscaClienteService.BuscaClienteApi({nome, cpf, celular})
         
-            res.json({busca : resultado , error : false})
-            res.status(200)
+            if(resultado == undefined){
+                res.json({ error : "Não foi encontrado esse dado em nossa base"})
+                res.status(200)
+            }else{
+                res.json({busca : resultado , error : false})
+                res.status(200)
+            }
+       
           
         }catch(error)
         {

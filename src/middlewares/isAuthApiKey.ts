@@ -43,7 +43,7 @@ export  async function isAuthApiKey(req: Request, res: Response, next: NextFunct
 
         const buscaBancoApi = await prismaClient.empresa.findMany({
             where:{
-                apikey: apikey[0]
+                apikey: apikey[1]
             },
             select:{
                 apikey : true,

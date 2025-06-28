@@ -19,6 +19,7 @@ import { PedidoController } from "./controllers/pedido/PedidoController";
 import { Whats } from "./controllers/whatsapp/WhatsAppController";
 import { CrmController } from "./controllers/crm/CrmController";
 import { BuscaClienteController } from "./controllers/buscacliente/BuscaClienteController";
+import { isAuthApiKey } from "./middlewares/isAuthApiKey";
 
 const router= Router();
 
@@ -79,6 +80,7 @@ router.get("/campanhausuario/:id_user",  new CampanhaController().CampanhaClient
 router.get("/usuario/:cpf", new UsuarioController().UsuarioCheck)
 
 router.post("/buscacliente" , isAuth, new BuscaClienteController().buscaCliente)
+router.get("/buscaclienteapi" , isAuthApiKey, new BuscaClienteController().buscaClienteapi)
 //--categoria
 router.get("/produto/:id_empresa", new ProdutoController().buscaProduto)
 router.get("/produtocategoria/:id_categoria", new ProdutoController().produtoCategoria)

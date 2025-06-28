@@ -14,17 +14,11 @@ class BuscaClienteController {
 
     async buscaCliente(req :Request, res : Response){
 
-        
-
         const {nome, cpf, celular, id_user} : dadosProps = req.body
-
-
 
         console.log("controller" + id_user)
         const buscaClienteService = new BuscaClienteService()
 
-    
-        
         try{
 
             const resultado = await buscaClienteService.BuscaCliente({nome, cpf, celular, id_user})
@@ -32,7 +26,6 @@ class BuscaClienteController {
             res.json({busca : resultado , error : false})
             res.status(200)
           
-
         }catch(error)
         {
             console.log(error)
@@ -41,6 +34,34 @@ class BuscaClienteController {
         }
 
 
+    }
+
+
+    async buscaClienteapi(req :Request, res : Response){
+
+        //const {nome, cpf, celular} : dadosProps = req.body
+        const nome = req.query.nome
+        const cpf = req.query.cpf
+        const celular = req.query.celular
+     
+        console.log('cpf controllerr >>> ')
+        console.log(cpf)
+
+        const buscaClienteService = new BuscaClienteService()
+
+        try{
+
+            const resultado = await buscaClienteService.BuscaClienteApi({nome, cpf, celular})
+        
+            res.json({busca : resultado , error : false})
+            res.status(200)
+          
+        }catch(error)
+        {
+            console.log(error)
+            res.status(400)
+            res.json({busca : "" , error : true})
+        }
 
 
     }

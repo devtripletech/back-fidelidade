@@ -271,6 +271,7 @@ model empresa{
       data_cadastrou DateTime? @default(now())
       ativo Int ? @default(1)
       uid String @default(dbgenerated()) @db.Uuid
+      apikey String?
 
   @@map("empresa")
 }

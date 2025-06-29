@@ -7,17 +7,23 @@ class BuscaClienteService{
 
 
 
-async BuscaClienteApi ({nome, cpf, celular}){
+async BuscaClienteApi ({nome, cpf, celular, chaveapi}){
     try{
+
 
         
         let consulta = ""
-       
+        const chaveRedis = `api-chave${chaveapi}`
+        const id_user_redis = await redis.get(chaveRedis)
+        const dadosredisJson = JSON.parse(id_user_redis)
+        
+
         if(cpf != '' || cpf != undefined){
 
             //gera log da consulta
             consulta = `Consulta realizada no CPF : ${cpf}`
             
+            //replace caso venha com pontos o cpf
             cpf = cpf.replace('-','').replace('.','').replace('.','')
 
             const resultado = await prismaClient.dados_fisica.findMany({
@@ -35,77 +41,95 @@ async BuscaClienteApi ({nome, cpf, celular}){
                     Authorization : 'Token c0eff22d-d6c5-48e7-8d4e-10810d8f7bc5'
                 }})
 
-                if(dados == undefined){
-                    return 
-                }
-
-            
-                const resultadoGeral = {
-                        "nome" : dados.data[0].name,
-                        "cpf" : dados.data[0].cpf,
-                        "tipo_end" : dados.data[0].addresses[0].type,
-                        "rua" : dados.data[0].addresses[0].street,
-                        "numero" : dados.data[0].addresses[0].number,
-                        "complemento" : dados.data[0].addresses[0].complemento,
-                        "cidade" : dados.data[0].addresses[0].city,
-                        "uf" : dados.data[0].addresses[0].district,
-                        "cep" : dados.data[0].addresses[0].postal_code,
-                        "morto": dados.data[0].possibly_dead,
-                        "celular_ddd" : dados.data[0].mobile_phones[0].ddd,
-                        "celular_number" : dados.data[0].mobile_phones[0].number,
-                        "connect_whats" : dados.data[0].mobile_phones[0].whatsapp_datetime,
-                        "rg" : dados.data[0].rg,
-                        "bairro" : dados.data[0].addresses[0].neighborhood,
-                        "nome_mae" : dados.data[0].mother_name,
-                        "data_aniversaio" : dados.data[0].birthday
-                } 
+                if(dados.data.length > 0){
+                        const resultadoGeral = {
+                                "nome" : dados.data[0].name,
+                                "cpf" : dados.data[0].cpf,
+                                "tipo_end" : dados.data[0].addresses[0].type,
+                                "rua" : dados.data[0].addresses[0].street,
+                                "numero" : dados.data[0].addresses[0].number,
+                                "complemento" : dados.data[0].addresses[0].complemento,
+                                "cidade" : dados.data[0].addresses[0].city,
+                                "uf" : dados.data[0].addresses[0].district,
+                                "cep" : dados.data[0].addresses[0].postal_code,
+                                "morto": dados.data[0].possibly_dead,
+                                "celular_ddd" : dados.data[0].mobile_phones[0].ddd,
+                                "celular_number" : dados.data[0].mobile_phones[0].number,
+                                "connect_whats" : dados.data[0].mobile_phones[0].whatsapp_datetime,
+                                "rg" : dados.data[0].rg,
+                                "bairro" : dados.data[0].addresses[0].neighborhood,
+                                "nome_mae" : dados.data[0].mother_name,
+                                "data_aniversaio" : dados.data[0].birthday
+                        } 
 
 
-                    const resultado = await prismaClient.dados_fisica.create({
+                        const resultado = await prismaClient.dados_fisica.create({
 
+                            data:{
+                                "nome" : dados.data[0].name,
+                                "cpf" : dados.data[0].cpf.toString(),
+                                "tipo_end" : dados.data[0].addresses[0].type,
+                                "rua" : dados.data[0].addresses[0].street,
+                                "numero" : dados.data[0].addresses[0].number,
+                                "cidade" : dados.data[0].addresses[0].city,
+                                "uf" : dados.data[0].addresses[0].district,
+                                "cep" : dados.data[0].addresses[0].postal_code,
+                                "morto": dados.data[0].possibly_dead,
+                                "celular_ddd" : dados.data[0].mobile_phones[0].ddd,
+                                "celular_number" : dados.data[0].mobile_phones[0].number,
+                                "connect_whats" : new Date(dados.data[0].mobile_phones[0].whatsapp_datetime),
+                                "rg" : dados.data[0].rg,
+                                "bairro" : dados.data[0].addresses[0].neighborhood,
+                                "nome_mae" : dados.data[0].mother_name,
+                                "data_aniversaio" : new Date(`${dados.data[0].birthday}T00:00:00Z`) 
+                            },
+                            select:{
+                                id : true
+                            }
+                    
+                        })
+
+                        const inser_log = await prismaClient.consulta_insere_log.create({
                         data:{
-                            "nome" : dados.data[0].name,
-                            "cpf" : dados.data[0].cpf.toString(),
-                            "tipo_end" : dados.data[0].addresses[0].type,
-                            "rua" : dados.data[0].addresses[0].street,
-                            "numero" : dados.data[0].addresses[0].number,
-                            "cidade" : dados.data[0].addresses[0].city,
-                            "uf" : dados.data[0].addresses[0].district,
-                            "cep" : dados.data[0].addresses[0].postal_code,
-                            "morto": dados.data[0].possibly_dead,
-                            "celular_ddd" : dados.data[0].mobile_phones[0].ddd,
-                            "celular_number" : dados.data[0].mobile_phones[0].number,
-                            "connect_whats" : new Date(dados.data[0].mobile_phones[0].whatsapp_datetime),
-                            "rg" : dados.data[0].rg,
-                            "bairro" : dados.data[0].addresses[0].neighborhood,
-                            "nome_mae" : dados.data[0].mother_name,
-                            "data_aniversaio" : new Date(`${dados.data[0].birthday}T00:00:00Z`) 
-                        },
-                        select:{
-                            id : true
-                        }
-                  
-                    })
-
-                    const inser_log = await prismaClient.consulta_insere_log.create({
-                        data:{
-                            id_user : 2,
+                            id_user : dadosredisJson.id_user,
                             debito : -1,
                             fonte_propria : 1,
                             data_cadastrou : new Date(), 
                             consulta : consulta,
-                            id_dados_fisica : resultado.id
+                            id_dados_fisica : resultado.id ?? 0
                         
                         }
                     })
 
-                    return resultadoGeral
+
+                         return resultadoGeral
+                } else {
+                    
+                               const inser_log = await prismaClient.consulta_insere_log.create({
+                        data:{
+                            id_user : dadosredisJson.id_user,
+                            debito : -1,
+                            fonte_propria : 1,
+                            data_cadastrou : new Date(), 
+                            consulta : consulta,
+                            id_dados_fisica : 0
+                        
+                        }
+                    })
+                }   
+                  
+
+                if(dados == undefined){
+                            return 
+                }
+
+             
             
             }else{
 
                 const inser_log = await prismaClient.consulta_insere_log.create({
                     data:{
-                        id_user : 2,
+                        id_user : dadosredisJson.id_user,
                         debito : -1,
                         fonte_propria : 1,
                         data_cadastrou : new Date(), 

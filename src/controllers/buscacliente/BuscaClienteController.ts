@@ -51,7 +51,13 @@ class BuscaClienteController {
 
         try{
 
-            const resultado = await buscaClienteService.BuscaClienteApi({nome, cpf, celular})
+            //busca a chave para identificar o usuario e a empresa
+            const chaveapiHeader = req.headers.authorization
+            const chaveapiVetor = chaveapiHeader.split(" ")
+            const chaveapi = chaveapiVetor[1]
+
+
+            const resultado = await buscaClienteService.BuscaClienteApi({nome, cpf, celular, chaveapi})
         
             if(resultado == undefined){
                 res.json({ error : "Não foi encontrado esse dado em nossa base"})

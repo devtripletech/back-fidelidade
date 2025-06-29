@@ -11,7 +11,7 @@ async BuscaClienteApi ({nome, cpf, celular, chaveapi}){
     try{
 
 
-        
+        console.log(cpf + ">>>>>> console cpf service")
         let consulta = ""
         const chaveRedis = `api-chave${chaveapi}`
         const id_user_redis = await redis.get(chaveRedis)
@@ -44,7 +44,7 @@ async BuscaClienteApi ({nome, cpf, celular, chaveapi}){
                 if(dados.data.length > 0){
                         const resultadoGeral = {
                                 "nome" : dados.data[0].name,
-                                "cpf" : dados.data[0].cpf,
+                                "cpf" : dados.data[0].cpf.toString(),
                                 "tipo_end" : dados.data[0].addresses[0].type,
                                 "rua" : dados.data[0].addresses[0].street,
                                 "numero" : dados.data[0].addresses[0].number,
@@ -67,7 +67,7 @@ async BuscaClienteApi ({nome, cpf, celular, chaveapi}){
 
                             data:{
                                 "nome" : dados.data[0].name,
-                                "cpf" : dados.data[0].cpf.toString(),
+                                "cpf" : cpf,
                                 "tipo_end" : dados.data[0].addresses[0].type,
                                 "rua" : dados.data[0].addresses[0].street,
                                 "numero" : dados.data[0].addresses[0].number,
@@ -189,7 +189,7 @@ async BuscaCliente ({nome, cpf, celular, id_user}){
             
                 const resultadoGeral = {
                         "nome" : dados.data[0].name,
-                        "cpf" : dados.data[0].cpf,
+                        "cpf" : cpf,
                         "tipo_end" : dados.data[0].addresses[0].type,
                         "rua" : dados.data[0].addresses[0].street,
                         "numero" : dados.data[0].addresses[0].number,
@@ -212,7 +212,7 @@ async BuscaCliente ({nome, cpf, celular, id_user}){
 
                         data:{
                             "nome" : dados.data[0].name,
-                            "cpf" : dados.data[0].cpf.toString(),
+                            "cpf" : cpf,
                             "tipo_end" : dados.data[0].addresses[0].type,
                             "rua" : dados.data[0].addresses[0].street,
                             "numero" : dados.data[0].addresses[0].number,

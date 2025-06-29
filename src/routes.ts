@@ -20,6 +20,7 @@ import { Whats } from "./controllers/whatsapp/WhatsAppController";
 import { CrmController } from "./controllers/crm/CrmController";
 import { BuscaClienteController } from "./controllers/buscacliente/BuscaClienteController";
 import { isAuthApiKey } from "./middlewares/isAuthApiKey";
+import { RelatoriosConsultaController } from "./controllers/buscacliente/RelatoriosConsultaController";
 
 const router= Router();
 
@@ -79,8 +80,11 @@ router.get("/campanhausuario/:id_user",  new CampanhaController().CampanhaClient
 //router.get("/usuario/:cpf&:empresaId", new UsuarioController().UsuarioCheck)
 router.get("/usuario/:cpf", new UsuarioController().UsuarioCheck)
 
+//---consulta
 router.post("/buscacliente" , isAuth, new BuscaClienteController().buscaCliente)
 router.get("/buscaclienteapi" , isAuthApiKey, new BuscaClienteController().buscaClienteapi)
+router.get("/rel_consulta_resumido/:id_user", new RelatoriosConsultaController().historicoConsulta)
+
 //--categoria
 router.get("/produto/:id_empresa", new ProdutoController().buscaProduto)
 router.get("/produtocategoria/:id_categoria", new ProdutoController().produtoCategoria)

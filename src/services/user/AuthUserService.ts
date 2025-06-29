@@ -4,8 +4,6 @@ import {sign} from 'jsonwebtoken'
 import dotenv from 'dotenv';
 
 
-dotenv.config();
-
 interface AuthRequest{
     email: string;
     password: string;

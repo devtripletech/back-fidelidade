@@ -15,12 +15,14 @@ class RelatoriosConsultaController{
 
              const resultado = await relatoriosConsultaService.HistoricoConsulta({id_user_int})
              
-             res.json({resultado : resultado.resultado, error: false})
+             res.json({resultado : resultado.resultado, soma_dia : resultado.soma_dia, total_mes : resultado.tota_mes, soma_total: resultado.soma_total, error: false})
 
              res.status(200)
             
         } catch (error) {
 
+
+            console.log(error)
             res.status(401)
             res.json({error: true})
             

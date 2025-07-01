@@ -13,7 +13,7 @@ class RelatoriosConsultaService{
         const dia = format(new Date(), 'yyyy-MM-dd');
 
      
-        const query_soma = `select cast(sum(debito * -1) as int) as total, id_user from public.consulta_insere_log where id_user = ${id_user_int} and data_cadastrou  >=  '${dia}'ç group by id_user;`
+        const query_soma = `select cast(sum(debito * -1) as int) as total, id_user from public.consulta_insere_log where id_user = ${id_user_int} and data_cadastrou  >=  '${dia}' group by id_user;`
        
         const soma_dia = await prismaClient.$queryRawUnsafe(query_soma)
 

@@ -210,7 +210,7 @@ class UsuarioServiceV2{
 
             const id_usuario = user.id
 
-            const useEmpresa = await prismaClient.userEmpresa.create({
+            const useEmpresa = await prismaClient.userempresa.create({
                 data:{
                     id_empresa : 1,
                     id_user : user.id,

@@ -142,7 +142,7 @@ model campanha_token {
 }
 
 
-model userEmpresa{
+model userempresa{
 
       id_user_empresa Int  @id @default(autoincrement())
       id_empresa Int
@@ -150,7 +150,7 @@ model userEmpresa{
       data_cadastrou DateTime? @default(now())
       role Int ? @default(1)
 
-  @@map("userEmpresa")
+  @@map("userempresa")
 }
 
 model lista{

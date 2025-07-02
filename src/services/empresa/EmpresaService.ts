@@ -20,7 +20,7 @@ class EmpresaService{
             }
         })
 
-        const serEmpresa = await prismaClient.userEmpresa.create({
+        const serEmpresa = await prismaClient.userempresa.create({
             data:{
                 id_empresa : Number(result.id_empresa),
                 role : 1,

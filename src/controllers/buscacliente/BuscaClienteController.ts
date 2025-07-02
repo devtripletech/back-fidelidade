@@ -44,8 +44,6 @@ class BuscaClienteController {
         const cpf = req.query.cpf
         const celular = req.query.celular
      
-        console.log('cpf controllerr >>> ')
-        console.log(cpf)
 
         const buscaClienteService = new BuscaClienteService()
 
@@ -64,12 +62,9 @@ class BuscaClienteController {
             ]
 
             if(resultado == undefined){
-
-
                 res.json({ resultado : data, error : "Não foi encontrado esse dado em nossa base"})
                 res.status(200)
             }else{
-
 
                 res.json({busca : data , error : false})
                 res.status(200)

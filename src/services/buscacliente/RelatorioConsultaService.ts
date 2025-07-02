@@ -19,7 +19,7 @@ class RelatoriosConsultaService{
 
         const soma = await prismaClient.$queryRawUnsafe(`select cast(total_geral as int) total_geral from public.view_rel_dash_mes_ano where id_user = ${id_user_int};`)
 
-        const total_mes = await prismaClient.$queryRawUnsafe(`select cast(sum(debito * -1) as int) as mes from consulta_insere_log cil  where id_user = 2 and data_cadastrou >= '${formatted}';`)
+        const total_mes = await prismaClient.$queryRawUnsafe(`select cast(sum(debito * -1) as int) as mes from consulta_insere_log cil  where id_user = ${id_user_int} and data_cadastrou >= '${formatted}';`)
 
         const resultado = await prismaClient.$queryRaw `select nome, cpf , data_aniversaio , ultima_consulta , cast(qtde_consulta as int) as qtde_consulta from public.view_consulta_resumo_log vcrl where id_user  = ${id_user_int};`
 

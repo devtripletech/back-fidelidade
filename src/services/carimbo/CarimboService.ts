@@ -62,7 +62,7 @@ class CarimboService{
                 }
             })
 
-            const check_user_empresa = await prismaClient.userEmpresa.findMany({
+            const check_user_empresa = await prismaClient.userempresa.findMany({
                 where:{
                     AND :[    
                    { id_empresa : id_empresa[0].id_empresa },
@@ -72,7 +72,7 @@ class CarimboService{
             })
 
             if(check_user_empresa.length <= 0){
-                await prismaClient.userEmpresa.create({
+                await prismaClient.userempresa.create({
                     data:{
                         id_empresa: id_empresa[0].id_empresa,
                         id_user : id_user[0].id,

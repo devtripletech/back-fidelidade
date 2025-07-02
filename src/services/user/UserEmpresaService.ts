@@ -21,7 +21,7 @@ class UserEmpresaService{
             const userCreate = await createUserService.execute({name , email, password , userEmpresa})
             if(userCreate.user.id){
             
-                const empresaUser = await prismaClient.userEmpresa.create({
+                const empresaUser = await prismaClient.userempresa.create({
 
                     data:{
 

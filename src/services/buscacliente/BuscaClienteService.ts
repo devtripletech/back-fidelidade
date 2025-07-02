@@ -38,7 +38,7 @@ async BuscaClienteApi ({nome, cpf, celular, chaveapi}){
                 const axios = require('axios');
 
                 const dados = await axios.get(api, {headers : {
-                    Authorization : 'Token c0eff22d-d6c5-48e7-8d4e-10810d8f7bc5'
+                    Authorization : `Token ${process.env.API_DATASTONE}`
                 }})
 
                 if(dados.data.length > 0){
@@ -180,7 +180,7 @@ async BuscaCliente ({nome, cpf, celular, id_user}){
                 const axios = require('axios');
 
                 const dados = await axios.get(api, {headers : {
-                    Authorization : 'Token c0eff22d-d6c5-48e7-8d4e-10810d8f7bc5'
+                    Authorization : `Token ${process.env.API_DATASTONE}`
                 }})
 
                 console.log(dados.data[0])

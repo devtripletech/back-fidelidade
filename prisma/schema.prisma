@@ -243,6 +243,7 @@ model User{
       created_at DateTime? @default(now())
       update_at DateTime? @default(now())
       ativo Int @default(1)
+      uid_user String
 
   @@map("users")
 }

@@ -41,6 +41,20 @@ async BuscaClienteApi ({nome, cpf, celular, chaveapi}){
                     Authorization : `Token ${process.env.API_DATASTONE}`
                 }})
 
+                    let telefone_complementar = []
+
+                if(dados.data[0].mobile_phones.length >= 1){
+                    dados.data[0].mobile_phones.forEach(element => {
+                         let array = {
+                            "ddd" : element.ddd,
+                            "celular_number" : element.number
+                        }
+
+                    telefone_complementar.push(array)
+
+                    });
+                }
+
                 if(dados.data.length > 0){
                         const resultadoGeral = {
                                 "nome" : dados.data[0].name,
@@ -89,6 +103,18 @@ async BuscaClienteApi ({nome, cpf, celular, chaveapi}){
                     
                         })
 
+                    //insere o telefone complementar
+                    for (let index = 0; index < telefone_complementar.length; index++) {
+
+                        await prismaClient.telefone_comp.create({
+                            data :{
+                                ddd : telefone_complementar[index].ddd.toString(),
+                                telefone : telefone_complementar[index].celular_number,
+                                id_dados_fisica : resultado.id
+                            }
+                        })
+                        
+                    }
                         const inser_log = await prismaClient.consulta_insere_log.create({
                         data:{
                             id_user : dadosredisJson.id_user,

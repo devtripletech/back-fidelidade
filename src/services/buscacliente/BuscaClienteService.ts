@@ -186,8 +186,26 @@ async BuscaCliente ({nome, cpf, celular, id_user}){
                 console.log(dados.data[0])
 
                 console.log(">>>>> fimmm")
+
+
+                let telefone_complementar = []
+
+                if(dados.data[0].mobile_phones.length >= 1){
+                    dados.data[0].mobile_phones.forEach(element => {
+                         let array = {
+                            "ddd" : element.ddd,
+                            "celular_number" : element.number
+                        }
+
+                    telefone_complementar.push(array)
+
+                    });
+                }
             
-                const resultadoGeral = {
+                console.log(telefone_complementar)
+                
+                
+                        const resultadoGeral = {
                         "nome" : dados.data[0].name,
                         "cpf" : cpf,
                         "tipo_end" : dados.data[0].addresses[0].type,
@@ -204,7 +222,9 @@ async BuscaCliente ({nome, cpf, celular, id_user}){
                         "rg" : dados.data[0].rg,
                         "bairro" : dados.data[0].addresses[0].neighborhood,
                         "nome_mae" : dados.data[0].mother_name,
-                        "data_aniversaio" : dados.data[0].birthday
+                        "data_aniversaio" : dados.data[0].birthday,
+                        "telefone_complementar" : telefone_complementar
+                    
                 } 
 
 
@@ -233,7 +253,20 @@ async BuscaCliente ({nome, cpf, celular, id_user}){
                         }
                   
                     })
+                    
+                    //insere o telefone complementar
+                    for (let index = 0; index < telefone_complementar.length; index++) {
 
+                        await prismaClient.telefone_comp.create({
+                            data :{
+                                ddd : telefone_complementar[index].ddd.toString(),
+                                telefone : telefone_complementar[index].celular_number,
+                                id_dados_fisica : resultado.id
+                            }
+                        })
+                        
+                    }
+            
                     const inser_log = await prismaClient.consulta_insere_log.create({
                         data:{
                             id_user : id_user,

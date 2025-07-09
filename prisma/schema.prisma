@@ -11,6 +11,14 @@ datasource db {
 }
 
 
+model telefone_comp {
+    id_telefone_comp  Int   @id @default(autoincrement())
+    id_dados_fisica Int
+    ddd String
+    telefone String
+    @@map("telefone_comp")
+}
+
 model consulta_user {
   id_consulta_user  Int   @id @default(autoincrement())
   id_user Int

@@ -303,7 +303,9 @@ model campanha_formulario{
 model campanha{
 
       id_campanha Int  @id @default(autoincrement())
-      id_empresa Int 
+      id_empresa Int
+      envia_msg Int ?
+      recompensa String ?
       nome_campanha String
       data_inicio DateTime ?
       data_fim DateTime ?

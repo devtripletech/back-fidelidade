@@ -68,6 +68,7 @@ export interface  EmpresaProps {
 }
 
 export interface CampanhaProps {
+    reward ? : string
     id_campanha ? : number
     id_empresa: number
     nome_campanha: string

@@ -205,7 +205,7 @@ class CampanhaController{
 
     async createCampanha(req : Request, res : Response){
 
-        let {mensagem_cliente, nome_campanha, data_inicio, data_fim, qtde_servico, id_empresa, descricao, id_user, gera_token, nro_campanha_cliente, qtde_token, qtde_pontos, id_campanha_msg} = req.body
+        let {reward, mensagem_cliente, nome_campanha, data_inicio, data_fim, qtde_servico, id_empresa, descricao, id_user, gera_token, nro_campanha_cliente, qtde_token, qtde_pontos, id_campanha_msg} = req.body
 
     
        const campanhaService = new CamapanhaService()       
@@ -218,7 +218,7 @@ class CampanhaController{
         
    
 
-        const resultado = await campanhaService.createCampanha({mensagem_cliente, nome_campanha, data_inicio, data_fim, qtde_servico, id_empresa, descricao, id_user, gera_token, nro_campanha_cliente, qtde_token, qtde_pontos, id_campanha_msg})
+        const resultado = await campanhaService.createCampanha({reward, mensagem_cliente, nome_campanha, data_inicio, data_fim, qtde_servico, id_empresa, descricao, id_user, gera_token, nro_campanha_cliente, qtde_token, qtde_pontos, id_campanha_msg})
 
         if(resultado.status == true){
             res.status(200)

@@ -96,6 +96,7 @@ async campanhaCliente({id_user}){
         const resultado = await prismaClient.$queryRaw `select distinct nome_campanha, id, id_campanha, qtde_servico  from view_campanha_user_simplificado where id = ${id_user} order by qtde_servico desc`
 
         console.log(resultado)
+
         return({status: true, resultado : resultado})
 
     }catch(error){
@@ -246,12 +247,13 @@ async ClienteExtranho({id_user, id_campanha}){
         return({status : true, resultado : result})
 
     }
-    async createCampanha ({mensagem_cliente, nome_campanha, data_inicio, data_fim, qtde_servico, id_empresa, descricao, id_user,  gera_token, nro_campanha_cliente, qtde_token, qtde_pontos, id_campanha_msg }: CampanhaProps){
+    async createCampanha ({reward, mensagem_cliente, nome_campanha, data_inicio, data_fim, qtde_servico, id_empresa, descricao, id_user,  gera_token, nro_campanha_cliente, qtde_token, qtde_pontos, id_campanha_msg }: CampanhaProps){
 
         try{
 
             const result  =  await prismaClient.campanha.create({
                 data :{
+                    recompensa : reward,
                     nome_campanha : nome_campanha,
                     data_inicio : data_inicio,
                     data_fim : data_fim,
@@ -263,8 +265,8 @@ async ClienteExtranho({id_user, id_campanha}){
                     qtde_token : qtde_token,
                     qtde_pontos : qtde_pontos,
                     id_user : id_user,
-                    mensagem_cliente : mensagem_cliente
-                }, 
+                    mensagem_cliente : mensagem_cliente,
+                },  
                 select:{
 
                     id_campanha : true

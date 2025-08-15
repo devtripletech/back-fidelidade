@@ -253,7 +253,10 @@ class UsuarioService{
                 tipo : "1",
                 cidade  : cidade,
                 postalcode : postalcode,
-                celular : ""
+                celular : "",
+                email : "",
+                telefone: ""
+                
                 
                 
             }] 

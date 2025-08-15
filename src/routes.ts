@@ -68,7 +68,7 @@ router.post("/sendsms", new ClientesContrller().SendMensagemSMS)
 //--Rotas Carimbo
 router.post("/carimbo", new CarimboController().inserCarimbo)
 router.get("/carimbocards/:id_empresa", new CarimboController().BuscaCarimboClienteMensalController)
-
+router.post("/usuario/:cpf", new UsuarioController().UsuarioCheck)
 //--resgate
 router.get("/resgate/:id_empresa", new ResgateController().ListResgate)
 router.get("/usuario/:cpf", new UsuarioController().UsuarioCheck)

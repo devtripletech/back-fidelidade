@@ -203,7 +203,7 @@ model produto{
       descricao String
       categoria   categoria @relation(fields: [id_categoria], references: [id_categoria])
 
-  @@map("produto")
+     @@map("produto")
 }
 
 
@@ -224,6 +224,9 @@ model usuario{
       ativo Int ? @default(1)
       numero String
       data_nascimento DateTime ?
+      email String ?
+      telefone String ?
+      user  User   @relation(fields: [id_user], references: [id])
 
   @@map("usuario")
 }
@@ -252,6 +255,8 @@ model User{
       update_at DateTime? @default(now())
       ativo Int @default(1)
       uid_user String ?
+
+      usuario usuario[]
 
   @@map("users")
 }

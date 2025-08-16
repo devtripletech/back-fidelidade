@@ -119,22 +119,17 @@ class UsuarioService{
 
     async usuarioCheckService({cpf}){
 
-        
         const https = require('https');
         let validacaoEmail = true //variavel criada para validação do usuario esta com os dados corretos ou não.
-        
+    
         const usuario = await  prismaClient.usuario.findMany({
             where : {
                 cpf : cpf
             }
         })
-
-
-        const melhoresContatos : ContatosProps[] = await prismaClient.$queryRaw `select email,  celular  from users u inner join usuario us on u.id = us.id_user where u.cpf = ${cpf} `
-          
+        const melhoresContatos : ContatosProps[] = await prismaClient.$queryRaw `select u.email,  celular  from users u inner join usuario us on u.id = us.id_user where u.cpf = ${cpf} `
     
         if(melhoresContatos.length > 0 ){
-
 
             melhoresContatos.map((contatos, index)=> {
                 if(contatos.email.length == 0){
@@ -144,14 +139,8 @@ class UsuarioService{
                 } else {
                     validacaoEmail = false
                 }
-    
             })
-    
-
-            
-
             return ({ status : true, resultado : usuario, datastone : false, melhorescontatos : melhoresContatos , validaemail : validacaoEmail})
-
 
         }else{
             
@@ -161,18 +150,13 @@ class UsuarioService{
             const dados : ApiCPFProps = await axios.get(api, {headers : {
                 Authorization : 'Token c0eff22d-d6c5-48e7-8d4e-10810d8f7bc5'
             }})
-
-         
-
-
             
             const user = await prismaClient.user.create({
                 data:{
                     name: dados.data[0].name,
                     password: "passwordHas",
                     cpf: cpf,
-                    role: 0,
-                    email : ""
+                    role: 0
                 }, 
                 select :{
                     id : true
@@ -180,8 +164,6 @@ class UsuarioService{
                 
             })
             
-
-
             let endereco = ""
             let cidade =  ""
             let bairro =  ""
@@ -200,6 +182,7 @@ class UsuarioService{
                     numero =  dados.data[index].addresses[index].number
                     uf =  dados.data[index].addresses[index].district
                     postalcode = dados.data[index].addresses[index].postal_code
+                    
   
                 }
                 if(endereco != ""){
@@ -254,8 +237,7 @@ class UsuarioService{
                 cidade  : cidade,
                 postalcode : postalcode,
                 celular : "",
-                email : "",
-                telefone: ""
+          
                 
                 
                 

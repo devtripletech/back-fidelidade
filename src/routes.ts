@@ -88,7 +88,7 @@ router.get("/rel_consulta_resumido/:id_user", new RelatoriosConsultaController()
 //--categoria
 router.get("/produto/:id_empresa", new ProdutoController().buscaProduto)
 router.get("/produtocategoria/:id_categoria", new ProdutoController().produtoCategoria)
-router.get("/categoria", new CategoriaController().CategoriaLista)
+router.get("/categoria/:id_empresa", new CategoriaController().CategoriaLista)
 router.post("/categoria", new CategoriaController().CategeriaCriar)
 
 //--lista de produto

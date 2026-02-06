@@ -184,7 +184,7 @@ model categoria{
       ativo Int 
       data_cadastrou DateTime? @default(now())
       data_update DateTime?
-      icon String
+      icon String?
       produtos produto[]
       
 

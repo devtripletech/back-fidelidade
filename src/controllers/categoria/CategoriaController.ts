@@ -3,6 +3,26 @@ import { CategoriaService } from "../../services/categoria/CategoriaService";
 
 class CategoriaController{
 
+
+    async CategeriaCriar(req : Request, res : Response){
+
+        const {id_empresa, nome_categoria, ativo, icon} = req.body
+
+        const _categogoriaCriar = new CategoriaService()
+
+        const resultado = await _categogoriaCriar.categoriaCriar({id_empresa, nome_categoria, ativo, icon})
+
+        if(resultado.status == true){
+
+            res.json({mensagem : "Criado com sucesso"})
+            res.send(200)
+        }
+        else{
+            res.send(400)
+        }
+
+    }
+
     async CategoriaLista(req : Request, res : Response){
 
         try{
